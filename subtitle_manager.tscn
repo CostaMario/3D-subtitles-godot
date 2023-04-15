@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://tcc7slw1y3f7"]
+
+[ext_resource type="Script" path="res://Modules/3DSubtitles/SubtitleManager.cs" id="1_a6vro"]
+
+[node name="SubtitleManager" type="Node"]
+script = ExtResource("1_a6vro")
+subtitle3DInstancePath = "res://Modules/3DSubtitles/subtitle_3d_instance.tscn"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
