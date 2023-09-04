@@ -41,7 +41,7 @@ public partial class SubtitleManager : Node
 		return null;
 	}
 
-	public static int StartSubtitle(Node3D subPosition, float volumeDB, float unitSize, float maxDist = 0f, string subtitle = "", bool essentialSubtitle = false)
+	public static int StartSubtitle(Node3D subPosition, float volumeDB, float unitSize, float maxDist = 0f, string subtitle = "", bool essentialSubtitle = false, float fuzziness = 0f)
 	{
 		//Every subtitle has its own ID, which is how we keep track of them
 		//both from the Manager as well as from the corresponding SubtitledSound
@@ -67,7 +67,7 @@ public partial class SubtitleManager : Node
 		if(maxDist != 0f)
 			adjustedMaxDist = Mathf.Clamp(adjustedMaxDist, 0, maxDist);
 		
-		newSubtitle.Initialize(subPosition, adjustedMaxDist, subtitle);
+		newSubtitle.Initialize(subPosition, adjustedMaxDist, subtitle, fuzziness);
 		
 		subtitles.Add(newId, newSubtitle);
 

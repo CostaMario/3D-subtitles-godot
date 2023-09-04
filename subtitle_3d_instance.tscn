@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://dejarvkb0jcxr"]
 
-[ext_resource type="Script" path="res://Modules/3DSubtitles/Subtitle3D.cs" id="1_ynvpq"]
+[ext_resource type="Script" path="res://addons/3D-subtitles-godot/Subtitle3D.cs" id="1_ynvpq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k0dec"]
 bg_color = Color(0.0431373, 0.0431373, 0.0431373, 0.752941)

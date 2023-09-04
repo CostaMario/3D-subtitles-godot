@@ -6,21 +6,30 @@ public partial class Subtitle3D : BoxContainer
 	private Node3D target;
 	private Camera3D camera;
 
+	private float fuzziness;
+
 	private bool startOnNextFrame = false;
+
+	private RandomNumberGenerator rng;
+	private Vector3 offset;
 
 	public override void _Ready()
 	{
-		camera = GetViewport().GetCamera3D();
+		rng = new RandomNumberGenerator();
 	}
 
-	public virtual void Initialize(Node3D targ, float maxDistance = 15f, string subtitle = "")
+	public virtual void Initialize(Node3D targ, float maxDistance = 15f, string subtitle = "", float fuzzinessAmmount = 0f)
 	{
+		camera = GetViewport().GetCamera3D();
+
 		target = targ;
 
 		if(subtitle != "")
 			(GetNode("Label") as Label).Text = subtitle;
 
 		maxDist = maxDistance;
+		fuzziness = fuzzinessAmmount;
+		offset = new Vector3(rng.RandfRange(-fuzziness / 2f, fuzziness / 2f), rng.RandfRange(-fuzziness / 2f, fuzziness / 2f), rng.RandfRange(-fuzziness / 2f, fuzziness / 2f));
 		
 		Visible = false;
 		startOnNextFrame = true;
@@ -38,7 +47,7 @@ public partial class Subtitle3D : BoxContainer
 
 			if(dist < maxDist)
 			{
-				Vector2 curPosition = camera.UnprojectPosition(target.GlobalPosition) - new Vector2((Size.X * nScale) / 2, (Size.Y * nScale) / 2);
+				Vector2 curPosition = camera.UnprojectPosition(target.GlobalPosition + offset) - new Vector2((Size.X * nScale) / 2, (Size.Y * nScale) / 2);
 				
 				Vector2 screenSize = GetViewport().GetVisibleRect().Size;
 
