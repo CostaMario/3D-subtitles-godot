@@ -65,9 +65,9 @@ public partial class SubtitleManager : Node
 		float adjustedMaxDist = Mathf.Pow(10f, volumeDB / 10f) * unitSize;
 
 		if(maxDist != 0f)
-			adjustedMaxDist = Mathf.Clamp(adjustedMaxDist, 0, maxDist);
+			adjustedMaxDist = maxDist;
 		
-		newSubtitle.Initialize(subPosition, adjustedMaxDist, subtitle, fuzziness);
+		newSubtitle.Initialize(subPosition, adjustedMaxDist, subtitle, fuzziness, volumeDB);
 		
 		subtitles.Add(newId, newSubtitle);
 

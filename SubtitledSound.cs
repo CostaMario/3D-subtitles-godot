@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class SubtitledSound : AudioStreamPlayer3D
+public partial class SubtitledSound : Node
 {
 	[Export]
 	private string subtitle;
@@ -14,30 +14,46 @@ public partial class SubtitledSound : AudioStreamPlayer3D
 	private bool curPlaying = false;
 	private int id = 0;
 
+	[Export]
+	private float maxDistance;
+
+	[Export]
+	private float volume;
+
+	[Export]
+	private float duration;
+
+	private Timer t;
+
 	public override void _Ready()
 	{
 		TreeExiting += StopOnExit;
-		Finished += StopSubtitle;
+
+		t = new Timer();
+		AddChild(t);
+
+		t.WaitTime = duration;
+		t.OneShot = true;
+		t.Timeout += StopSubtitle;
 	}
 
 	public override void _Process(double delta)
 	{
-		if(curPlaying && !Playing)
-			StopSubtitle();
-		else if(!curPlaying && Playing)
-			StartSubtitle();
+
 	}
 
-	private void StartSubtitle()
+	public void StartSubtitle()
 	{
+		t.Stop();
 		curPlaying = true;
 
-		float m = MaxDistance;
+		float m = maxDistance;
 
 		//Right now, the loudness of the sound is set via the visual volume multiplier property. 
 		//I'll change it to automatically detecting it based on the sound once I figure out how to do it.
 
-		id = SubtitleManager.StartSubtitle(this, VolumeDb, UnitSize * visualVolumeMultiplier, m, subtitle, fuzziness:fuzziness);
+		id = SubtitleManager.StartSubtitle(GetParent<Node3D>(), volume, visualVolumeMultiplier, m, subtitle, fuzziness:fuzziness);
+		t.Start();
 	}
 
 	private void StopSubtitle()

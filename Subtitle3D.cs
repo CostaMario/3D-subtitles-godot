@@ -13,12 +13,14 @@ public partial class Subtitle3D : BoxContainer
 	private RandomNumberGenerator rng;
 	private Vector3 offset;
 
+	private float vol;
+
 	public override void _Ready()
 	{
 		rng = new RandomNumberGenerator();
 	}
 
-	public virtual void Initialize(Node3D targ, float maxDistance = 15f, string subtitle = "", float fuzzinessAmmount = 0f)
+	public virtual void Initialize(Node3D targ, float maxDistance = 15f, string subtitle = "", float fuzzinessAmmount = 0f, float volume = 1f)
 	{
 		camera = GetViewport().GetCamera3D();
 
@@ -33,6 +35,8 @@ public partial class Subtitle3D : BoxContainer
 		
 		Visible = false;
 		startOnNextFrame = true;
+
+		vol = volume;
 	}
 
 	public override void _Process(double delta)
@@ -42,7 +46,7 @@ public partial class Subtitle3D : BoxContainer
 		if(target != null && (IsVisibleInTree() || startOnNextFrame))
 		{
 			float dist = camera.GlobalPosition.DistanceTo(target.GlobalPosition);
-			float nScale = Mathf.Clamp(1f - (dist/maxDist), 0f, 1f);
+			float nScale = Mathf.Clamp(1f - (dist/maxDist), 0f, 1f) * (vol + 1);
 			Scale = new Vector2(nScale, nScale);
 
 			if(dist < maxDist)
